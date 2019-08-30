@@ -25,8 +25,9 @@ SECRET_KEY = '#jzsouqs(mc&6fe!bx%=xfta&2m-0t+dmmj*uzx(esllizbgd0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['<env_CNAME>.<region>.elasticbeanstalk.com']
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Application definition
 
