@@ -25,9 +25,9 @@ SECRET_KEY = '#jzsouqs(mc&6fe!bx%=xfta&2m-0t+dmmj*uzx(esllizbgd0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['<env_CNAME>.<region>.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['django-env.vqyfzaa9ya.us-east-1.elasticbeanstalk.com', 'localhost']
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = 'static'
 
 # Application definition
 
@@ -76,12 +76,55 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+print('RDS_DB_NAME', os.environ['RDS_DB_NAME'])
+print('RDS_USERNAME', os.environ['RDS_USERNAME'])
+print('RDS_PASSWORD', os.environ['RDS_PASSWORD'])
+print('RDS_HOSTNAME', os.environ['RDS_HOSTNAME'])
+print('RDS_PORT', os.environ['RDS_PORT'])
+
+if os.environ['RDS_DB_NAME']:
+    # aws production settings
+    DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.mysql',
+           'NAME': os.environ['RDS_DB_NAME'],
+           'USER': os.environ['RDS_USERNAME'],
+           'PASSWORD': os.environ['RDS_PASSWORD'],
+           'HOST': os.environ['RDS_HOSTNAME'],
+           'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+else:
+    # development/test settings
+    DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.mysql',
+           'NAME': 'shubhamdipt',
+       }
+    }
+
+open_redis_url = os.environ['REDIS_URL']
+
+if open_redis_url:
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": open_redis_url,
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "IGNORE_EXCEPTIONS": True,
+            },
+            'KEY_PREFIX': os.environ['REDIS_NAME'],
+            'VERSION': os.environ['REDIS_VERSION'],
+            'TIMEOUT': 86400,  # 1 day
+        },
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
 
 
 # Password validation

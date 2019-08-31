@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/python,webstorm,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=python,webstorm,visualstudiocode
 
+.bashrc
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
