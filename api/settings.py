@@ -76,12 +76,6 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-print('RDS_DB_NAME', os.environ['RDS_DB_NAME'])
-print('RDS_USERNAME', os.environ['RDS_USERNAME'])
-print('RDS_PASSWORD', os.environ['RDS_PASSWORD'])
-print('RDS_HOSTNAME', os.environ['RDS_HOSTNAME'])
-print('RDS_PORT', os.environ['RDS_PORT'])
-
 if os.environ['RDS_DB_NAME']:
     # aws production settings
     DATABASES = {

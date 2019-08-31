@@ -13,9 +13,7 @@ class UrlsView(APIView):
         return Response({"urls": serializer.data})
 
     def post(self, request):
-        url = request.data.get('url')
-        # Create an url from the above data
-        serializer = UrlSerializer(data=url)
+        serializer = UrlSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             url_saved = serializer.save()
         return Response({"success": "Url '{}' created successfully".format(url_saved.url)})

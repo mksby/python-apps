@@ -4,7 +4,6 @@ from .models import URL
 
 
 class UrlSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
     url = serializers.CharField(max_length=120)
     short = serializers.CharField(max_length=120)
 
