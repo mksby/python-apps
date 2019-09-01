@@ -29,6 +29,12 @@ ALLOWED_HOSTS = ['django-env.vqyfzaa9ya.us-east-1.elasticbeanstalk.com', 'localh
 
 STATIC_ROOT = 'static'
 
+SPA_APP_DIR = os.path.join(BASE_DIR, 'client/dist')
+
+STATICFILES_DIRS = [
+    os.path.join(SPA_APP_DIR),
+]   
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -57,7 +63,7 @@ ROOT_URLCONF = 'api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'static')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +82,7 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if os.environ['RDS_DB_NAME']:
+if os.environ.get('RDS_DB_NAME'):
     # aws production settings
     DATABASES = {
         'default': {
@@ -97,7 +103,7 @@ else:
        }
     }
 
-open_redis_url = os.environ['REDIS_URL']
+open_redis_url = os.environ.get('REDIS_URL')
 
 if open_redis_url:
     CACHES = {
